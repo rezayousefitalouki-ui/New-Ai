@@ -1,22 +1,27 @@
-# نمای معماری
+# معماری SocialMind AI
 
-SocialMind AI به‌صورت monorepo با API ماژولار و runtimeهای جدا برای وب و رندر ویدیو توسعه می‌یابد. Docker Compose محیط توسعهٔ محلی است، نه پیکربندی production.
+## پایه
 
-## مرزبندی
+محصول یک monorepo با Django modular monolith برای عملیات کسب‌وکار، Next.js برای رابط کاربر و workerهای جدا برای کارهای پس‌زمینه است. Django ORM منبع اصلی persistence است. FastAPI و ORM دوم بخشی از معماری آغازین نیستند.
 
-- `apps/api/app/api`: قراردادهای HTTP و health checks
-- `apps/api/app/core`: تنظیمات و اجزای مشترک
-- `apps/api/app/db`: مدل‌ها، session و migrations
-- دامنه‌های آینده: auth، workspaces، billing، Instagram، content و publishing
-- `apps/web`: رابط Persian-first با RTL
-- `video-engine/remotion`: compositionهای از پیش تعریف‌شده؛ JSON معتبر storyboard به composition نگاشت می‌شود و کد تولیدشده اجرا نمی‌شود.
+## مرزها
 
-منطق دامنه از framework و provider جدا می‌ماند. همهٔ داده‌های متعلق به مشتری workspace-scoped هستند؛ workspace باید از عضویت معتبر سمت سرور تعیین شود. OAuth tokenها، پرداخت و اعتبار نیازمند کنترل دسترسی، audit و تراکنش‌اند.
+- `apps/backend/config`: تنظیمات environment، URL و Celery
+- `apps/backend/apps/accounts`: کاربر سفارشی با شمارهٔ موبایل
+- `apps/backend/apps/workspaces`: workspace و عضویت
+- سایر اپ‌های Django در فازهای بعد برای Instagram، analytics، content، billing و publishing اضافه می‌شوند.
+- `apps/frontend`: App Router، مسیرهای کاربردی، اجزای مشترک و API client
+- `video-engine/remotion`: compositionهای از پیش تعریف‌شده برای رندر امن
+- PostgreSQL، Redis، Celery و Nginx در Docker Compose توسعهٔ محلی
 
-## زمان و کارهای پس‌زمینه
+## امنیت tenant
 
-Timestampها UTC و timezone-aware هستند؛ تقویم جلالی فقط نمایش است. درخواست HTTP نباید رندر ویدیو را اجرا کند. صف‌های Celery/Redis و worker مجزای Node در مرحلهٔ پردازش پس‌زمینه تکمیل می‌شوند.
+هر دادهٔ متعلق به مشتری باید workspace-scoped باشد. workspace از عضویت تاییدشدهٔ کاربر استخراج می‌شود و نباید به شناسهٔ ارسال‌شده از مرورگر اعتماد کرد. دسترسی‌ها در selectors/services و permissionهای DRF محدود می‌شوند؛ migration فعلی فقط اسکلت workspace و membership را ایجاد می‌کند و هنوز workflow مجوزدهی کامل نشده است.
 
-## تصمیم‌های باز
+## زمان و localization
 
-مجوزهای دقیق Meta به نوع حساب و تأیید Meta وابسته‌اند. انتخاب AI provider، S3، درگاه‌های پرداخت و observability پس از تعیین الزامات استقرار انجام می‌شود.
+زبان رابط فارسی، جهت RTL و timezone نمایشی Asia/Tehran است. پایگاه داده timestampهای timezone-aware ذخیره می‌کند. تاریخ جلالی فقط برای نمایش/برنامه‌ریزی است و canonical timestamp نیست.
+
+## مرزهای ادغام
+
+Meta، درگاه‌های پرداخت، providerهای مدل زبانی و object storage از طریق آداپترها اضافه می‌شوند. تا دریافت credential، پاسخ‌ها و داده‌ها mock یا خالی می‌مانند و نباید عملیات موفق وانمود شود. کد storyboard فقط JSON اعتبارسنجی‌شده می‌پذیرد؛ اجرای JavaScript تولیدشده توسط مدل مجاز نیست.
