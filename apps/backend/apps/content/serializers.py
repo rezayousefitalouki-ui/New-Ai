@@ -75,20 +75,33 @@ class PostSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         account_ids = attrs.get("social_account_ids")
-        if account_ids is None and self.instance:
-            return attrs
-        workspace = self.context["workspace"]
-        accounts = SocialAccount.objects.filter(
-            workspace=workspace,
-            status=SocialAccount.Status.CONNECTED,
-            id__in=account_ids or [],
-        )
-        if accounts.count() != len(set(account_ids or [])):
-            raise serializers.ValidationError(
-                {"social_account_ids": "فقط حساب‌های متصل همین فضای کاری قابل انتخاب‌اند."}
+        if account_ids is not None:
+            workspace = self.context["workspace"]
+            accounts = list(
+                SocialAccount.objects.filter(
+                    workspace=workspace,
+                    status=SocialAccount.Status.CONNECTED,
+                    id__in=account_ids,
+                )
             )
-        attrs["_accounts"] = list(accounts)
-        if attrs.get("scheduled_at") and not accounts and not self.instance:
+            if len(accounts) != len(set(account_ids)):
+                raise serializers.ValidationError(
+                    {"social_account_ids": "فقط حساب‌های متصل همین فضای کاری قابل انتخاب‌اند."}
+                )
+            attrs["_accounts"] = accounts
+        elif self.instance:
+            accounts = [
+                target.social_account
+                for target in self.instance.targets.select_related("social_account")
+            ]
+        else:
+            accounts = []
+
+        scheduled_at = attrs.get(
+            "scheduled_at",
+            self.instance.scheduled_at if self.instance else None,
+        )
+        if scheduled_at and not accounts:
             raise serializers.ValidationError(
                 {"social_account_ids": "برای زمان‌بندی، دست‌کم یک حساب متصل انتخاب کنید."}
             )
