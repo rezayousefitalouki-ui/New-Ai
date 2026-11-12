@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "corsheaders", "rest_framework", "apps.accounts.apps.AccountsConfig",
     "apps.workspaces.apps.WorkspacesConfig", "apps.health.apps.HealthConfig",
-    "apps.social_accounts.apps.SocialAccountsConfig",
+    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
@@ -78,3 +78,10 @@ META_OAUTH_SCOPES = [
     if scope.strip()
 ]
 WEB_APP_URL = os.getenv("WEB_APP_URL", "http://localhost:3000")
+
+CELERY_BEAT_SCHEDULE = {
+    "enqueue-due-social-posts-every-minute": {
+        "task": "apps.content.tasks.enqueue_due_posts",
+        "schedule": 60.0,
+    },
+}
