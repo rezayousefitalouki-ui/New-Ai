@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ("last_error", models.CharField(blank=True, max_length=250)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
-                ("connected_by", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="social_accounts_connected", to=settings.AUTH_USER_MODEL)),
+                ("connected_by", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="social_accounts_connected", to=settings.AUTH_USER_MODEL)),
                 ("workspace", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="social_accounts", to="workspaces.workspace")),
             ],
             options={"ordering": ("platform", "display_name")},
