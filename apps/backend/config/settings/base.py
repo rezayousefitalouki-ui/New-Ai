@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "corsheaders", "rest_framework", "apps.accounts.apps.AccountsConfig",
     "apps.workspaces.apps.WorkspacesConfig", "apps.health.apps.HealthConfig",
-    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig",
+    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
@@ -85,3 +85,5 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": 60.0,
     },
 }
+
+META_WEBHOOK_VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", "")
