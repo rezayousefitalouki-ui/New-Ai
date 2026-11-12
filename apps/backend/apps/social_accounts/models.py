@@ -93,8 +93,13 @@ class OAuthState(models.Model):
         )
 
     def consume(self):
-        if self.consumed_at or self.expires_at <= timezone.now():
-            return False
-        self.consumed_at = timezone.now()
-        self.save(update_fields=("consumed_at",))
-        return True
+        now = timezone.now()
+        updated = type(self).objects.filter(
+            pk=self.pk,
+            consumed_at__isnull=True,
+            expires_at__gt=now,
+        ).update(consumed_at=now)
+        if updated:
+            self.consumed_at = now
+            return True
+        return False

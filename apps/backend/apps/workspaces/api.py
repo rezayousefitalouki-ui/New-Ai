@@ -12,12 +12,10 @@ User = get_user_model()
 
 
 class WorkspaceSerializer(serializers.ModelSerializer):
-    role = serializers.CharField(source="memberships__role", read_only=True)
-
     class Meta:
         model = Workspace
-        fields = ("id", "name", "slug", "created_at", "role")
-        read_only_fields = ("id", "slug", "created_at", "role")
+        fields = ("id", "name", "slug", "created_at")
+        read_only_fields = ("id", "slug", "created_at")
 
 
 class MembershipSerializer(serializers.ModelSerializer):
