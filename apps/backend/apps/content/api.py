@@ -8,8 +8,7 @@ from rest_framework.views import APIView
 from apps.content.models import Post, PostTarget
 from apps.content.serializers import PostSerializer
 from apps.content.tasks import publish_post
-from apps.social_accounts.models import SocialAccount
-from apps.workspaces.models import Membership, Workspace
+from apps.workspaces.models import Membership
 
 
 def _membership(user, workspace_id):
