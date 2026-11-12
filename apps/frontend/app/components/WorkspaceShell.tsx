@@ -81,7 +81,6 @@ export function WorkspaceShell({ children }: Readonly<{ children: React.ReactNod
       </div>)}
       <div className="sidebar-spacer"/>
       <div className="usage-card"><div><span>اعتبار ماهانه</span><b>—</b></div><div className="usage-track"><span style={{width:"0%"}}/></div><small>پس از فعال‌سازی پلن نمایش داده می‌شود</small></div>
-      <Link className="nav-link settings-link" href="/settings/connections"><Settings2 size={17}/><span>اتصال حساب‌ها</span></Link>
       <div className="profile-row"><span className="profile-avatar">{displayName.slice(0, 1)}</span><span><b>{displayName}</b><small>{user?.phone}</small></span>
         <button className="logout-button" title="خروج" aria-label="خروج" onClick={async () => { await apiRequest("/api/v1/auth/logout/", {method:"POST"}); router.replace("/login"); }}><LogOut size={15}/></button>
       </div>

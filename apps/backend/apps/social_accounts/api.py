@@ -44,10 +44,28 @@ class SocialAccountListView(APIView):
         membership = _membership(request.user, workspace_id)
         if not membership:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        accounts = SocialAccount.objects.filter(
-            workspace_id=workspace_id
-        )
+        accounts = SocialAccount.objects.filter(workspace_id=workspace_id)
         return Response({"accounts": SocialAccountSerializer(accounts, many=True).data})
+
+
+class SocialAccountDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, account_id):
+        workspace_id = request.query_params.get("workspace_id")
+        membership = _membership(request.user, workspace_id)
+        if not membership:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if not _can_manage(membership):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        account = SocialAccount.objects.filter(
+            id=account_id,
+            workspace_id=workspace_id,
+        ).first()
+        if not account:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        account.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class MetaOAuthStartView(APIView):
@@ -65,10 +83,11 @@ class MetaOAuthStartView(APIView):
             and settings.META_APP_SECRET
             and settings.META_GRAPH_VERSION
             and settings.META_OAUTH_CALLBACK_URI
+            and settings.META_OAUTH_SCOPES
             and settings.TOKEN_ENCRYPTION_KEY
         ):
             return Response(
-                {"detail": "اتصال Meta هنوز در تنظیمات سرور فعال نشده است."},
+                {"detail": "تنظیمات اتصال Meta کامل نیست؛ اتصال فعلاً غیرفعال است."},
                 status=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
         state = secrets.token_urlsafe(32)

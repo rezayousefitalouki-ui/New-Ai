@@ -56,16 +56,15 @@ class WorkspaceListCreateView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        workspaces = Workspace.objects.filter(
-            memberships__user=request.user
-        ).order_by("created_at")
-        result = []
-        for workspace in workspaces:
-            membership = membership_for(request.user, workspace.id)
-            row = WorkspaceSerializer(workspace).data
-            row["role"] = membership.role if membership else None
-            result.append(row)
-        return Response({"workspaces": result})
+        memberships = Membership.objects.filter(
+            user=request.user
+        ).select_related("workspace").order_by("workspace__created_at")
+        rows = []
+        for membership in memberships:
+            row = WorkspaceSerializer(membership.workspace).data
+            row["role"] = membership.role
+            rows.append(row)
+        return Response({"workspaces": rows})
 
     def post(self, request):
         name = str(request.data.get("name", "")).strip()
@@ -166,6 +165,39 @@ class WorkspaceMembersView(APIView):
 
 class WorkspaceMemberDetailView(APIView):
     permission_classes = (IsAuthenticated,)
+
+    def patch(self, request, workspace_id, membership_id):
+        actor = membership_for(request.user, workspace_id)
+        if not actor:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if not can_manage(actor):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        target = Membership.objects.filter(
+            id=membership_id,
+            workspace_id=workspace_id,
+        ).first()
+        if not target:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if target.role == Membership.Role.OWNER:
+            return Response(
+                {"detail": "نقش مالک از این مسیر قابل تغییر نیست."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        role = request.data.get("role")
+        allowed_roles = {Membership.Role.EDITOR, Membership.Role.VIEWER}
+        if actor.role == Membership.Role.OWNER:
+            allowed_roles.add(Membership.Role.ADMIN)
+        if role not in allowed_roles:
+            return Response(
+                {"role": ["نقش انتخاب‌شده برای این کاربر مجاز نیست."]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if target.role == Membership.Role.ADMIN and actor.role != Membership.Role.OWNER:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        target.role = role
+        target.save(update_fields=("role",))
+        target = Membership.objects.select_related("user").get(pk=target.pk)
+        return Response({"member": MembershipSerializer(target).data})
 
     def delete(self, request, workspace_id, membership_id):
         actor_membership = membership_for(request.user, workspace_id)
