@@ -7,7 +7,6 @@ const metrics = [
   { label: "محتوای برنامه‌ریزی‌شده", value: "۰", change: "در این ماه", icon: CalendarDays, tone: "amber" },
   { label: "اعتبار قابل استفاده", value: "۳۴۰", change: "از ۵۰۰ اعتبار", icon: Sparkles, tone: "violet" },
 ];
-const activity = [24,39,33,51,43,62,48,58,77,54,68,88,72,91,63,75,97,70,82,59,72,90,61,82,54,74,63,94,67,85];
 
 export default function DashboardPage() {
   return <div className="page-content">
@@ -17,7 +16,7 @@ export default function DashboardPage() {
     <div className="dashboard-grid">
       <section className="surface performance-panel"><div className="panel-head"><div><h2>روند عملکرد</h2><small>آمار در دسترس پس از اتصال حساب نمایش داده می‌شود</small></div><button className="select-control">۳۰ روز اخیر <CalendarDays size={14}/></button></div>
         <div className="chart-legend"><span><i className="legend-dot green"/> تعامل</span><span><i className="legend-dot blue"/> دسترسی</span><span className="muted">دادهٔ واقعی هنوز موجود نیست</span></div>
-        <div className="chart-area"><div className="chart-y"><span>۱۰۰</span><span>۷۵</span><span>۵۰</span><span>۲۵</span><span>۰</span></div><div className="chart-grid"><div className="chart-lines"><i/><i/><i/><i/><i/></div><div className="chart-bars">{activity.map((n,i)=><span key={i} style={{height:n+"%"}}/>)}</div><div className="chart-x"><span>۱ آبان</span><span>۸ آبان</span><span>۱۵ آبان</span><span>۲۲ آبان</span><span>۳۰ آبان</span></div></div></div>
+        <div className="chart-area"><div className="chart-y"><span>۱۰۰</span><span>۷۵</span><span>۵۰</span><span>۲۵</span><span>۰</span></div><div className="chart-grid"><div className="chart-lines"><i/><i/><i/><i/><i/></div><div className="chart-empty-state"><b>داده‌ای برای رسم نمودار نداریم</b><small>پس از اتصال حساب، آمار واقعی اینجا نمایش داده می‌شود.</small></div><div className="chart-x"><span>۱ آبان</span><span>۸ آبان</span><span>۱۵ آبان</span><span>۲۲ آبان</span><span>۳۰ آبان</span></div></div></div>
       </section>
       <section className="surface quick-panel"><div className="panel-head"><div><h2>شروع سریع</h2><small>قدم‌های بعدی برای فضای کاری</small></div><button className="quiet-icon">···</button></div>
         <Link href="#" className="quick-row"><span className="quick-icon mint"><Instagram size={17}/></span><span><b>اتصال حساب حرفه‌ای</b><small>دریافت امن داده از API رسمی Meta</small></span><ArrowUpLeft size={15}/></Link>

@@ -45,9 +45,9 @@ export function WorkspaceShell({ children }: Readonly<{ children: React.ReactNod
         </Link>)}
       </div>)}
       <div className="sidebar-spacer"/>
-      <div className="usage-card"><div><span>اعتبار ماهانه</span><b>۶۸٪</b></div><div className="usage-track"><span/></div><small>۳۴۰ از ۵۰۰ اعتبار باقی‌مانده</small></div>
+      <div className="usage-card"><div><span>اعتبار ماهانه</span><b>—</b></div><div className="usage-track"><span style={{width:"0%"}}/></div><small>پس از فعال‌سازی پلن نمایش داده می‌شود</small></div>
       <Link className="nav-link settings-link" href="#"><Settings2 size={17}/><span>تنظیمات</span></Link>
-      <div className="profile-row"><span className="profile-avatar">ر</span><span><b>رضا یوسفی</b><small>مدیر فضای کاری</small></span><ChevronDown size={15}/></div>
+      <div className="profile-row"><span className="profile-avatar">ر</span><span><b>کاربر نمونه</b><small>مدیر فضای کاری</small></span><ChevronDown size={15}/></div>
     </aside>
     <main className="main-area">
       <header className="topbar">

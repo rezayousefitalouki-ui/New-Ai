@@ -76,3 +76,8 @@ button,input,textarea{font:inherit}button{cursor:pointer;color:inherit}a{color:i
 [data-theme="light"] .segmented button{color:#64756d}
 [data-theme="light"] .segmented .seg-active{background:#fff;color:#263b31}
 [data-theme="light"] .button-outline,[data-theme="light"] .select-control,[data-theme="light"] .today-button{background:#fff;color:#4c6257;border-color:#dbe6e0}
+
+.chart-empty-state,.plot-empty{position:absolute;inset:0 0 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8b9a95;text-align:center}
+.chart-empty-state b{font-size:9px;color:#c7d2cc;font-weight:500}
+.chart-empty-state small,.plot-empty{font-size:8px;color:#788680}
+.table-empty{padding:23px;text-align:center;color:#82918b;font-size:8px}
