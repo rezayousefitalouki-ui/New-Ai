@@ -41,7 +41,7 @@ def _store_message(account, kind, thread_id, participant_id, name, external_id, 
             "participant_name": (name or "")[:160],
         },
     )
-    Message.objects.get_or_create(
+    _, created = Message.objects.get_or_create(
         conversation=conversation,
         external_id=str(external_id or ""),
         defaults={
@@ -55,7 +55,7 @@ def _store_message(account, kind, thread_id, participant_id, name, external_id, 
     conversation.participant_id = str(participant_id or conversation.participant_id)
     if name:
         conversation.participant_name = str(name)[:160]
-    if direction == Message.Direction.INCOMING:
+    if direction == Message.Direction.INCOMING and created:
         conversation.unread_count += 1
     conversation.save(update_fields=("participant_id", "participant_name", "unread_count", "updated_at"))
 
@@ -68,7 +68,6 @@ def _ingest(payload):
         for event in entry.get("messaging", []):
             message = event.get("message") or {}
             sender = event.get("sender") or {}
-            recipient = event.get("recipient") or {}
             sender_id = str(sender.get("id") or "")
             if not message.get("text") or not sender_id:
                 continue
