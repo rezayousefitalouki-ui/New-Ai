@@ -21,7 +21,7 @@ const sections = [
   ]},
   { title: "ساخت محتوا", items: [
     { label: "استودیوی ویدیو", href: "/studio", Icon: Film },
-    { label: "ایده‌ها و متن‌ها", href: "#", Icon: Sparkles },
+    { label: "ایده‌ها و متن‌ها", href: "/ai", Icon: Sparkles },
   ]},
   { title: "تحلیل", items: [
     { label: "نمای کلی", href: "/analytics", Icon: Activity },
@@ -86,7 +86,7 @@ export function WorkspaceShell({ children }: Readonly<{ children: React.ReactNod
       </div>
     </aside>
     <main className="main-area"><header className="topbar">
-      <div className="breadcrumbs"><span>{activeWorkspace?.name || "فضای کاری"}</span><span className="crumb-divider">/</span><b>{sections.flatMap(s=>s.items).find(i=>i.href===pathname)?.label ?? (pathname==="/settings/connections"?"اتصال شبکه‌ها":"داشبورد")}</b></div>
+      <div className="breadcrumbs"><span>{activeWorkspace?.name || "فضای کاری"}</span><span className="crumb-divider">/</span><b>{sections.flatMap(s=>s.items).find(i=>i.href===pathname)?.label ?? (pathname==="/settings/connections"?"اتصال شبکه‌ها":pathname==="/ai"?"ایده‌ها و متن‌ها":"داشبورد")}</b></div>
       <div className="topbar-actions"><label className="search-box"><Search size={16}/><input placeholder="جست‌وجو..." aria-label="جست‌وجو"/><kbd>⌘ K</kbd></label><button className="top-icon" aria-label="اعلان‌ها"><Bell size={18}/></button>
         <Link href="/calendar" className="top-compose"><Plus size={16}/> محتوای جدید</Link><span className="top-separator"/><button className="theme-toggle" aria-label="تغییر حالت نمایش" onClick={toggleTheme}>{theme === "dark" ? <Sun size={16}/> : <Moon size={16}/>}</button><span className="profile-avatar top-avatar">{displayName.slice(0, 1)}</span>
       </div>
