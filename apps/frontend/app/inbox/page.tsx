@@ -16,6 +16,7 @@ export default function InboxPage(){
   const [workspaceId,setWorkspaceId]=useState("");
   const [filter,setFilter]=useState<"all"|"message"|"comment">("all");
   const [conversations,setConversations]=useState<Conversation[]>([]);
+  const [searchQuery,setSearchQuery]=useState("");
   const [selectedId,setSelectedId]=useState("");
   const [messages,setMessages]=useState<Message[]>([]);
   const [reply,setReply]=useState("");
@@ -26,6 +27,7 @@ export default function InboxPage(){
   useEffect(()=>{apiRequest<{workspaces:Workspace[]}>("/api/v1/workspaces/").then(async r=>{setWorkspaces(r.workspaces);const id=r.workspaces[0]?.id??"";setWorkspaceId(id);await refresh(id,filter);}).catch(e=>setError(e instanceof Error?e.message:"اینباکس دریافت نشد."));},[refresh]);
   useEffect(()=>{if(workspaceId)refresh(workspaceId,filter).catch(e=>setError(e instanceof Error?e.message:"اینباکس دریافت نشد."));},[workspaceId,filter,refresh]);
   useEffect(()=>{if(selectedId)loadDetail(selectedId).catch(e=>setError(e instanceof Error?e.message:"گفتگو دریافت نشد."));else setMessages([]);},[selectedId,loadDetail]);
+  const visibleConversations=conversations.filter(c=>(c.participant_name+" "+(c.last_message?.text??"")).toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()));
   const active=conversations.find(c=>c.id===selectedId);
   async function sendReply(event:FormEvent<HTMLFormElement>){event.preventDefault();if(!active||!reply.trim())return;setBusy(true);setError("");try{await apiRequest(`/api/v1/inbox/${active.id}/reply/`,{method:"POST",body:JSON.stringify({text:reply.trim()})});setReply("");await loadDetail(active.id);await refresh(workspaceId,filter);}catch(e){setError(e instanceof Error?e.message:"ارسال پاسخ ناموفق بود.");}finally{setBusy(false);}}
   return <div className="page-content inbox-page">
@@ -33,9 +35,9 @@ export default function InboxPage(){
     {error&&<div className="status-banner failure" role="alert">{error}</div>}
     <div className="inbox-workspace">
       <section className="thread-list surface"><div className="thread-toolbar"><div className="segmented"><button className={filter==="all"?"seg-active":""} onClick={()=>setFilter("all")}>همه</button><button className={filter==="comment"?"seg-active":""} onClick={()=>setFilter("comment")}>دیدگاه‌ها</button><button className={filter==="message"?"seg-active":""} onClick={()=>setFilter("message")}>پیام‌ها</button></div></div>
-        <div className="thread-search"><Search size={15}/><input placeholder="جست‌وجوی گفتگوها" aria-label="جست‌وجوی گفتگوها" onChange={e=>{const q=e.target.value.toLocaleLowerCase();setConversations(rows=>rows.filter(c=>(c.participant_name+c.last_message?.text).toLocaleLowerCase().includes(q)));}}/></div>
-        <div className="thread-items">{conversations.map(c=><button className={c.id===selectedId?"thread-row thread-selected":"thread-row"} key={c.id} onClick={()=>setSelectedId(c.id)}><span className="thread-avatar avatar-green">{(c.participant_name||c.platform).slice(0,2)}<i className="presence"/></span><span className="thread-copy"><span className="thread-name">{c.participant_name||"کاربر شبکه"}<i className={"social-mini "+c.platform}>{platformIcon(c.platform)}</i></span><small>{c.last_message?.text??(c.kind==="comment"?"دیدگاه":"پیام")}</small></span><span className="thread-meta"><small>{timeAgo(c.updated_at)}</small>{c.unread_count>0&&<i className="unread-count">{c.unread_count}</i>}</span></button>)}
-          {!conversations.length&&<div className="inbox-empty"><MessageCircle size={22}/><b>گفتگویی دریافت نشده</b><small>پس از تنظیم webhook و دریافت پیام یا دیدگاه، گفتگوها اینجا نمایش داده می‌شوند.</small></div>}
+        <div className="thread-search"><Search size={15}/><input placeholder="جست‌وجوی گفتگوها" aria-label="جست‌وجوی گفتگوها" value={searchQuery} onChange={e=>setSearchQuery(e.target.value)}/></div>
+        <div className="thread-items">{visibleConversations.map(c=><button className={c.id===selectedId?"thread-row thread-selected":"thread-row"} key={c.id} onClick={()=>setSelectedId(c.id)}><span className="thread-avatar avatar-green">{(c.participant_name||c.platform).slice(0,2)}<i className="presence"/></span><span className="thread-copy"><span className="thread-name">{c.participant_name||"کاربر شبکه"}<i className={"social-mini "+c.platform}>{platformIcon(c.platform)}</i></span><small>{c.last_message?.text??(c.kind==="comment"?"دیدگاه":"پیام")}</small></span><span className="thread-meta"><small>{timeAgo(c.updated_at)}</small>{c.unread_count>0&&<i className="unread-count">{c.unread_count}</i>}</span></button>)}
+          {!visibleConversations.length&&<div className="inbox-empty"><MessageCircle size={22}/><b>گفتگویی دریافت نشده</b><small>پس از تنظیم webhook و دریافت پیام یا دیدگاه، گفتگوها اینجا نمایش داده می‌شوند.</small></div>}
         </div><div className="thread-list-footer"><span className="green-dot"/> همگام‌سازی با webhook</div>
       </section>
       <section className="conversation surface">
