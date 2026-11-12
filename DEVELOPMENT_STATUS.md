@@ -24,7 +24,7 @@
 
 ## اعتبارسنجی CI
 
-در آخرین اجرای بررسی‌شده روی commit رابط 98e006ea98261f85984e488262e8a69ebbad045f، تست‌های backend و build/typecheck فرانت موفق شدند؛ Ruff سه مورد unused import/variable گزارش کرد. این موارد اصلاح شده‌اند و اجرای CI commitهای اصلاح‌شده در انتظار است. این مخزن در این نشست از طریق GitHub و بدون checkout محلی ویرایش شده است.
+GitHub Actions روی commit 3f66f741970b1741e47af302ec0dca9480e762bc سبز است: Django checks، migration drift، pytest، Ruff، TypeScript typecheck و production build همگی موفق شدند. این مخزن در این نشست از طریق GitHub و بدون checkout محلی ویرایش شده است.
 
 ## ورودی محصول
 
