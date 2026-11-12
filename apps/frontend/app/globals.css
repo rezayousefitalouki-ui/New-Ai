@@ -136,3 +136,29 @@ button,input,textarea{font:inherit}button{cursor:pointer;color:inherit}a{color:i
 .remove-member:hover{color:#ec7373;border-color:#ec737366}
 .connection-select{min-width:190px}
 @media(max-width:760px){.team-invite form{grid-template-columns:1fr}.team-member{gap:8px}.role-select{max-width:112px}}
+
+.calendar-real{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:12px}
+.calendar-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.calendar-post{position:relative;display:flex;align-items:center;gap:5px;max-width:100%;overflow:hidden}
+.calendar-post .post-copy{min-width:0;flex:1}
+.calendar-post .post-copy b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.calendar-post .post-copy small{font-size:10px}
+.modal-backdrop{position:fixed;inset:0;z-index:1000;background:#020604aa;display:grid;place-items:center;padding:18px}
+.compose-modal{width:min(100%,600px);max-height:92vh;overflow:auto;padding:22px}
+.compose-form{display:grid;gap:15px;margin-top:18px}
+.compose-form>label{display:grid;gap:8px;color:var(--muted);font-size:13px}
+.compose-form input,.compose-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;background:var(--canvas);color:var(--text);padding:11px 13px;font:inherit}
+.compose-form textarea{resize:vertical;line-height:1.7}
+.compose-form label small,.compose-accounts>small{font-size:11px;color:var(--muted)}
+.compose-accounts{display:grid;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px}
+.compose-accounts>label{display:flex;align-items:center;gap:8px;font-size:13px}
+.compose-accounts input{width:auto}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px}
+.inbox-controls{display:flex;align-items:center;gap:8px}
+.inbox-empty{display:grid;place-items:center;text-align:center;gap:10px;min-height:240px;padding:24px;color:var(--muted)}
+.inbox-empty b{color:var(--text)}
+.inbox-empty small{max-width:340px;line-height:1.7}
+.conversation-empty{height:100%}
+.reply-box textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--canvas);color:var(--text);font:inherit;border-radius:12px;padding:12px;resize:vertical}
+.reply-actions{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:10px}
+.reply-actions button{display:flex;align-items:center;gap:8px}
