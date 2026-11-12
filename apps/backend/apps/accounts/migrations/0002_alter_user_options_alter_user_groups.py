@@ -10,14 +10,17 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="user",
-            options={"verbose_name": "user"},
+            options={"verbose_name": "user", "verbose_name_plural": "users"},
         ),
         migrations.AlterField(
             model_name="user",
             name="groups",
             field=models.ManyToManyField(
                 blank=True,
-                help_text="The groups this user belongs to.",
+                help_text=(
+                    "The groups this user belongs to. A user will get all "
+                    "permissions granted to each of their groups."
+                ),
                 related_name="accounts_user_set",
                 related_query_name="accounts_user",
                 to="auth.group",
