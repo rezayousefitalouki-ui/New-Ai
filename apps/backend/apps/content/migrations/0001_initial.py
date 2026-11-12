@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ("published_at", models.DateTimeField(blank=True, null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
-                ("created_by", models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="created_posts", to=settings.AUTH_USER_MODEL)),
+                ("created_by", models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name="created_posts", to=settings.AUTH_USER_MODEL)),
                 ("workspace", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="posts", to="workspaces.workspace")),
             ],
             options={"ordering": ("-scheduled_at", "-created_at")},
