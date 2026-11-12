@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "corsheaders", "rest_framework", "apps.accounts.apps.AccountsConfig",
     "apps.workspaces.apps.WorkspacesConfig", "apps.health.apps.HealthConfig",
-    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig",
+    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig", "apps.analytics.apps.AnalyticsConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
@@ -83,6 +83,10 @@ CELERY_BEAT_SCHEDULE = {
     "enqueue-due-social-posts-every-minute": {
         "task": "apps.content.tasks.enqueue_due_posts",
         "schedule": 60.0,
+    },
+    "refresh-connected-instagram-analytics-every-six-hours": {
+        "task": "apps.analytics.tasks.enqueue_analytics_syncs",
+        "schedule": 21600.0,
     },
 }
 
