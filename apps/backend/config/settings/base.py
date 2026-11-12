@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "corsheaders", "rest_framework", "apps.accounts.apps.AccountsConfig",
     "apps.workspaces.apps.WorkspacesConfig", "apps.health.apps.HealthConfig",
-    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig", "apps.analytics.apps.AnalyticsConfig",
+    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig", "apps.analytics.apps.AnalyticsConfig", "apps.ai_engine.apps.AIEngineConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
