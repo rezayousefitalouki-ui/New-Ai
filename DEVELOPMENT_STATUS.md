@@ -4,21 +4,22 @@
 
 ## تکمیل‌شده
 - [x] بررسی مخزن: ریپازیتوری اولیه خالی بود.
-- [x] ثبت معماری آغازین و ایجاد شاخهٔ `phase-0/foundation`.
+- [x] ایجاد شاخهٔ `phase-0/foundation` و ثبت طرح معماری.
 - [x] اسکلت FastAPI، تنظیمات محیطی، health checks و migration اولیهٔ workspace.
 - [x] Docker Compose برای PostgreSQL، Redis، API، وب و Remotion.
-- [x] رابط پایهٔ فارسی RTL و composition اولیهٔ Remotion.
+- [x] رابط فارسی RTL با حالت روشن/تیره و composition اولیهٔ Remotion.
+- [x] تست پایهٔ endpoint زنده‌بودن API.
 
 ## در حال انجام
-- [ ] اجرای build و سرویس‌ها در checkout محلی.
+- [ ] اجرای buildها و سرویس‌ها در checkout محلی.
 
 ## معوق
-- [ ] اجرای Docker، migration، lint و تست‌ها و اصلاح خطاهای واقعی.
+- [ ] اجرای Compose، migration، lint، تست API و build فرانت‌اند و اصلاح بر اساس خروجی واقعی.
 - [ ] فاز ۱: ورود، workspace، RBAC، داشبورد مدیریت، اشتراک و اعتبار.
 - [ ] OAuth رسمی Meta، تحلیل، AI، تقویم، رندر صف‌بندی‌شده، انتشار و پرداخت.
 
 ## نتایج و محدودیت‌ها
-ابزار این نشست امکان نوشتن روی GitHub را دارد اما checkout قابل اجرا در workspace حاضر نیست؛ بنابراین سرویس‌ها یا تست‌ها واقعاً اجرا نشده‌اند. هیچ credential واقعی وارد مخزن نشده است.
+ابزار این نشست امکان نوشتن و خواندن فایل‌های GitHub را دارد، اما checkout اجرایی در workspace موجود نیست؛ بنابراین Docker، migration، lint، تست و build در این محیط اجرا نشده‌اند. هیچ credential واقعی وارد مخزن نشده است.
 
 ## نیازمندی بیرونی و گام بعد
-برای اجرا Docker Engine و Compose لازم است. Meta App و مجوزهای آن، کلید AI، storage و حساب درگاه در فازهای مربوطه لازم خواهند شد. گام بعد: checkout شاخه، اجرای Compose و تکمیل فاز صفر بر اساس نتایج واقعی؛ سپس فاز یک.
+برای اجرای محلی Docker Engine و Compose لازم است. Meta App و مجوزهایش، کلید AI، storage و حساب درگاه در فازهای مربوطه لازم خواهند شد. گام بعد: checkout شاخه، اجرای Compose و رفع خطاهای واقعی؛ سپس تکمیل فاز صفر و آغاز فاز یک.

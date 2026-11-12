@@ -18,8 +18,6 @@ def upgrade() -> None:
         sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
         sa.UniqueConstraint("slug", name="uq_workspaces_slug"),
     )
-    op.create_index("ix_workspaces_slug", "workspaces", ["slug"], unique=False)
 
 def downgrade() -> None:
-    op.drop_index("ix_workspaces_slug", table_name="workspaces")
     op.drop_table("workspaces")
