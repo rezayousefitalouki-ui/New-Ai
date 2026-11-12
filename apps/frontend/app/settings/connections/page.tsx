@@ -5,7 +5,7 @@ import { Facebook,Instagram,Linkedin,Youtube,RefreshCw } from "lucide-react";
 import { apiRequest } from "../../../services/api";
 
 type Workspace={id:string;name:string;role:string};
-type Account={id:string;platform:"facebook"|"instagram";display_name:string;username:string;status:string};
+type Account={id:string;platform:"facebook"|"instagram";external_id:string;display_name:string;username:string;status:string};
 const platforms=[
   {name:"Facebook",detail:"صفحه‌های تحت مدیریت از مسیر Meta",Icon:Facebook,active:true},
   {name:"Instagram",detail:"حساب حرفه‌ای متصل به صفحهٔ Facebook",Icon:Instagram,active:true},

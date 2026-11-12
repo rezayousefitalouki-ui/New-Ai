@@ -17,7 +17,7 @@ from apps.social_accounts.meta_oauth import (
 )
 from apps.social_accounts.models import OAuthState, SocialAccount
 from apps.social_accounts.serializers import SocialAccountSerializer
-from apps.workspaces.models import Membership, Workspace
+from apps.workspaces.models import Membership
 
 
 def _membership(user, workspace_id):
