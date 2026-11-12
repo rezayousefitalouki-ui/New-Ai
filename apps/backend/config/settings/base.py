@@ -11,7 +11,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "corsheaders", "rest_framework", "apps.accounts.apps.AccountsConfig",
     "apps.workspaces.apps.WorkspacesConfig", "apps.health.apps.HealthConfig",
-    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig", "apps.analytics.apps.AnalyticsConfig", "apps.ai_engine.apps.AIEngineConfig",
+    "apps.social_accounts.apps.SocialAccountsConfig", "apps.content.apps.ContentConfig", "apps.inbox.apps.InboxConfig", "apps.analytics.apps.AnalyticsConfig", "apps.ai_engine.apps.AIEngineConfig", "apps.video_studio.apps.VideoStudioConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware", "django.contrib.sessions.middleware.SessionMiddleware",
@@ -88,6 +88,13 @@ CELERY_BEAT_SCHEDULE = {
         "task": "apps.analytics.tasks.enqueue_analytics_syncs",
         "schedule": 21600.0,
     },
+    "poll-video-render-jobs-every-minute": {
+        "task": "apps.video_studio.tasks.enqueue_render_polls",
+        "schedule": 60.0,
+    },
 }
 
 META_WEBHOOK_VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", "")
+
+VIDEO_WORKER_URL = os.getenv("VIDEO_WORKER_URL", "http://video-renderer:3010").rstrip("/")
+VIDEO_WORKER_TOKEN = os.getenv("VIDEO_WORKER_TOKEN", "")

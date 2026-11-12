@@ -11,4 +11,5 @@ urlpatterns = [
     path("api/v1/inbox/", include("apps.inbox.urls")),
     path("api/v1/analytics/", include("apps.analytics.urls")),
     path("api/v1/ai/", include("apps.ai_engine.urls")),
+    path("api/v1/video/", include("apps.video_studio.urls")),
 ]
