@@ -1,36 +1,35 @@
-import { Activity, CalendarDays, Instagram, Lightbulb, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowDownLeft, ArrowUpLeft, CalendarDays, Instagram, Plus, Sparkles, TrendingUp, Video } from "lucide-react";
 
-const nav = ["داشبورد", "حساب‌های اینستاگرام", "تحلیل‌ها", "دستیار هوشمند", "تقویم محتوا"];
-const icons = [Activity, Instagram, Activity, Sparkles, CalendarDays];
 const metrics = [
-  ["دنبال‌کننده‌ها", "—", "پس از اتصال حساب نمایش داده می‌شود", Instagram],
-  ["تعامل محتوا", "—", "هنوز داده‌ای ثبت نشده", Activity],
-  ["محتوای این ماه", "۰", "محتوایی برنامه‌ریزی نشده", CalendarDays],
-  ["ایده‌های آماده", "۰", "ایدهٔ ذخیره‌شده‌ای وجود ندارد", Lightbulb],
+  { label: "دنبال‌کننده‌ها", value: "—", change: "اتصال حساب لازم است", icon: Instagram, tone: "mint" },
+  { label: "تعامل محتوا", value: "—", change: "داده‌ای دریافت نشده", icon: TrendingUp, tone: "blue" },
+  { label: "محتوای برنامه‌ریزی‌شده", value: "۰", change: "در این ماه", icon: CalendarDays, tone: "amber" },
+  { label: "اعتبار قابل استفاده", value: "۳۴۰", change: "از ۵۰۰ اعتبار", icon: Sparkles, tone: "violet" },
 ];
+const activity = [24,39,33,51,43,62,48,58,77,54,68,88,72,91,63,75,97,70,82,59,72,90,61,82,54,74,63,94,67,85];
 
-export default function Home() {
-  return <main className="layout">
-    <aside className="sidebar">
-      <div className="brand"><span className="brandIcon"><Sparkles size={18}/></span><span>SocialMind <b>AI</b></span></div>
-      <button className="workspace"><span className="dot"/> فضای کاری من <span className="down">⌄</span></button>
-      <small className="label">فضای کار</small>
-      <nav>{nav.map((item,i)=>{const Icon=icons[i];return <a className={i===0?"nav active":"nav"} href="#" key={item}><Icon size={17}/>{item}</a>})}</nav>
-      <div className="profile"><span className="avatar">ر</span><span><b>مدیر فضای کار</b><small>پلن آزمایشی</small></span><span className="down">···</span></div>
-    </aside>
-    <section className="main">
-      <header><span>فضای کار <i>/</i> <b>داشبورد</b></span><span className="avatar small">ر</span></header>
-      <div className="page">
-        <div className="welcome"><div><small>داشبورد فضای کاری</small><h1>خوش آمدی</h1><p>عملکرد محتوایت را ببین و برای قدم بعدی آماده شو.</p></div><button className="primary"><Sparkles size={16}/> ساخت ایدهٔ محتوا</button></div>
-        <div className="notice"><span className="noticeIcon"><Instagram size={18}/></span><div><b>حساب اینستاگرامی متصل نیست</b><small>برای دریافت آمار، حساب حرفه‌ای خودت را از مسیر رسمی Meta وصل کن.</small></div><button>اتصال حساب ←</button></div>
-        <div className="sectionTitle"><div><b>نمای کلی</b><small>آخرین وضعیت فضای کاری</small></div><button className="period">۷ روز گذشته　⌄</button></div>
-        <div className="metrics">{metrics.map(([title,value,caption,Icon])=>{const I=Icon as typeof Activity;return <article className="card metric" key={title as string}><div><span>{title as string}</span><I size={17}/></div><strong>{value as string}</strong><small>{caption as string}</small></article>})}</div>
-        <div className="bottom">
-          <article className="card chart"><div className="sectionTitle"><div><b>روند تعامل</b><small>عملکرد محتوای منتشرشده</small></div><span>···</span></div><div className="empty"><Activity size={25}/><b>هنوز داده‌ای برای نمایش نداریم</b><small>بعد از اتصال حساب و دریافت آمار، روند تعامل نمایش داده می‌شود.</small></div></article>
-          <article className="card quick"><div className="sectionTitle"><div><b>شروع سریع</b><small>قدم بعدی برای فضای کاری</small></div></div>{[["اتصال حساب حرفه‌ای","دریافت امن آمار از API رسمی Meta",Instagram],["تعریف هویت برند","لحن و مخاطب کسب‌وکارت را مشخص کن",Lightbulb],["ساخت اولین ایده","پیشنهادهای متناسب با برندت بگیر",Sparkles]].map(([title,desc,Icon])=>{const I=Icon as typeof Sparkles;return <div className="quickRow" key={title as string}><I size={17}/><span><b>{title as string}</b><small>{desc as string}</small></span><i>←</i></div>})}</article>
-        </div>
-        <footer>SocialMind AI <span>·</span> دستیار هوشمند رشد محتوا</footer>
-      </div>
-    </section>
-  </main>;
+export default function DashboardPage() {
+  return <div className="page-content">
+    <div className="page-heading"><div><div className="eyebrow">پنج‌شنبه، ۲۱ آبان ۱۴۰۵ <span className="live-dot"/> پیش‌نمایش محصول</div><h1>نمای کلی</h1><p>وضعیت محتوای فضای کاری را از یک‌جا دنبال کن.</p></div><Link href="/studio" className="button-primary"><Plus size={17}/> ساخت محتوای جدید</Link></div>
+    <div className="connect-banner"><div className="connect-mark"><Instagram size={19}/></div><div><b>حساب اینستاگرامی هنوز متصل نشده</b><small>برای مشاهدهٔ تحلیل واقعی و برنامه‌ریزی انتشار، حساب حرفه‌ای را متصل کن.</small></div><button className="button-outline">اتصال حساب <ArrowDownLeft size={15}/></button></div>
+    <div className="metric-grid">{metrics.map(({label,value,change,icon:Icon,tone})=><article className="surface metric-card" key={label}><div className="metric-head"><span>{label}</span><span className={"metric-icon "+tone}><Icon size={17}/></span></div><strong>{value}</strong><small>{change}</small></article>)}</div>
+    <div className="dashboard-grid">
+      <section className="surface performance-panel"><div className="panel-head"><div><h2>روند عملکرد</h2><small>آمار در دسترس پس از اتصال حساب نمایش داده می‌شود</small></div><button className="select-control">۳۰ روز اخیر <CalendarDays size={14}/></button></div>
+        <div className="chart-legend"><span><i className="legend-dot green"/> تعامل</span><span><i className="legend-dot blue"/> دسترسی</span><span className="muted">دادهٔ واقعی هنوز موجود نیست</span></div>
+        <div className="chart-area"><div className="chart-y"><span>۱۰۰</span><span>۷۵</span><span>۵۰</span><span>۲۵</span><span>۰</span></div><div className="chart-grid"><div className="chart-lines"><i/><i/><i/><i/><i/></div><div className="chart-bars">{activity.map((n,i)=><span key={i} style={{height:n+"%"}}/>)}</div><div className="chart-x"><span>۱ آبان</span><span>۸ آبان</span><span>۱۵ آبان</span><span>۲۲ آبان</span><span>۳۰ آبان</span></div></div></div>
+      </section>
+      <section className="surface quick-panel"><div className="panel-head"><div><h2>شروع سریع</h2><small>قدم‌های بعدی برای فضای کاری</small></div><button className="quiet-icon">···</button></div>
+        <Link href="#" className="quick-row"><span className="quick-icon mint"><Instagram size={17}/></span><span><b>اتصال حساب حرفه‌ای</b><small>دریافت امن داده از API رسمی Meta</small></span><ArrowUpLeft size={15}/></Link>
+        <Link href="#" className="quick-row"><span className="quick-icon violet"><Sparkles size={17}/></span><span><b>تعریف هویت برند</b><small>لحن، مخاطب و محصولاتت را ثبت کن</small></span><ArrowUpLeft size={15}/></Link>
+        <Link href="/calendar" className="quick-row"><span className="quick-icon amber"><CalendarDays size={17}/></span><span><b>چیدن تقویم محتوا</b><small>برای انتشار منظم برنامه‌ریزی کن</small></span><ArrowUpLeft size={15}/></Link>
+        <Link href="/studio" className="quick-row"><span className="quick-icon blue"><Video size={17}/></span><span><b>ساخت اولین ویدیو</b><small>وارد استودیوی تولید محتوا شو</small></span><ArrowUpLeft size={15}/></Link>
+      </section>
+    </div>
+    <div className="bottom-grid">
+      <section className="surface recent-panel"><div className="panel-head"><div><h2>محتوای اخیر</h2><small>پیش‌نویس‌ها و محتوای در صف بررسی</small></div><Link href="/calendar" className="subtle-link">نمایش تقویم ←</Link></div><div className="empty-state"><span><Video size={21}/></span><b>هنوز محتوایی ساخته نشده</b><small>اولین ایده یا ویدیویت را بساز تا اینجا ببینی.</small><Link href="/studio">رفتن به استودیو <ArrowUpLeft size={14}/></Link></div></section>
+      <section className="surface schedule-panel"><div className="panel-head"><div><h2>برنامهٔ امروز</h2><small>پنج‌شنبه، ۲۱ آبان</small></div><CalendarDays size={17}/></div><div className="empty-state compact"><span><CalendarDays size={19}/></span><b>انتشاری برای امروز نیست</b><small>محتوای زمان‌بندی‌شده در این بخش می‌آید.</small><Link href="/calendar">باز کردن تقویم <ArrowUpLeft size={14}/></Link></div></section>
+    </div>
+    <div className="data-note">داده‌های این داشبورد واقعی و زنده نیستند تا وقتی حساب شبکهٔ اجتماعی متصل شود.</div>
+  </div>;
 }
