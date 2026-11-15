@@ -1,5 +1,6 @@
 import json
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 from django.conf import settings
@@ -26,7 +27,14 @@ def generate(kind, brief, brand):
     base_url = settings.AI_PROVIDER_BASE_URL.rstrip("/")
     if not api_key or not model:
         raise ProviderError("ارائه‌دهندهٔ هوش مصنوعی پیکربندی نشده است.")
-    if not base_url.startswith(("https://", "http://localhost", "http://127.0.0.1")):
+    parsed_url = urlsplit(base_url)
+    is_local_http = parsed_url.scheme == "http" and parsed_url.hostname in {
+        "localhost",
+        "127.0.0.1",
+    }
+    if (
+        parsed_url.scheme != "https" and not is_local_http
+    ) or not parsed_url.hostname or parsed_url.username or parsed_url.password:
         raise ProviderError("نشانی ارائه‌دهندهٔ هوش مصنوعی باید HTTPS باشد.")
 
     schemas = {
