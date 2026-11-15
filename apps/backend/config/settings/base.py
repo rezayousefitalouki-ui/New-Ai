@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -78,6 +79,12 @@ META_OAUTH_SCOPES = [
     if scope.strip()
 ]
 WEB_APP_URL = os.getenv("WEB_APP_URL", "http://localhost:3000")
+
+# OpenAI-compatible provider configuration. Secrets are read only from the server environment.
+AI_PROVIDER_BASE_URL = os.getenv("AI_PROVIDER_BASE_URL", "https://api.openai.com/v1").rstrip("/")
+AI_PROVIDER_API_KEY = os.getenv("AI_PROVIDER_API_KEY", "")
+AI_PROVIDER_MODEL = os.getenv("AI_PROVIDER_MODEL", "")
+AI_PROVIDER_TIMEOUT_SECONDS = max(5, min(int(os.getenv("AI_PROVIDER_TIMEOUT_SECONDS", "90")), 180))
 
 CELERY_BEAT_SCHEDULE = {
     "enqueue-due-social-posts-every-minute": {
