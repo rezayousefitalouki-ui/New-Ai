@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+node_modules/
+.next/
+out/
+dist/
+.env
+.env.*
+!.env.example
+postgres_data/
+redis_data/
+media/
+rendered/
