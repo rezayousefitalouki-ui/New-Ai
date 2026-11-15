@@ -1,6 +1,6 @@
 # وضعیت توسعه
 
-آخرین به‌روزرسانی: 2026-11-12
+آخرین به‌روزرسانی: 2026-11-15
 
 ## تکمیل‌شده
 
@@ -12,6 +12,15 @@
 - [x] انتشار Meta محدود: Facebook Page (متن/عکس) و Instagram (یک تصویر JPEG).
 - [x] دریافت پیام/دیدگاه از webhook با HMAC، نگهداری conversation/message، پاسخ‌دادن از UI و حذف اثر تکراری webhook بر شمارندهٔ خوانده‌نشده.
 - [x] CI روی GitHub: Django check، migration drift check، pytest، Ruff، TypeScript و production build.
+
+## تکمیل‌های جدید در فاز AI hardening
+
+- [x] بارگذاری تنظیمات AI provider از environment (نشانی، کلید، مدل و timeout).
+- [x] محدودکردن endpoint ارائه‌دهنده به HTTPS؛ HTTP فقط برای localhost توسعه‌ای مجاز است.
+- [x] اعتبارسنجی نوع و ساختار JSON خروجی قبل از ذخیره.
+- [x] تبدیل خطاهای غیرمنتظرهٔ Celery به وضعیت failed به‌جای باقی‌ماندن درخواست در running.
+- [x] اعمال محدودسازی workspace در فهرست تولیدها و صف‌کردن task بعد از commit دیتابیس.
+- [x] تست‌های backend برای جداسازی workspace، نقش viewer، enqueue و خطا/اعتبارسنجی provider اضافه شد.
 
 ## محدودیت‌ها و نیازهای راه‌اندازی
 
